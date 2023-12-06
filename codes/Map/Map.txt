@@ -1,0 +1,24 @@
+#include <iostream>
+using namespace std;
+#include <string>
+#include <map>
+int main()
+{
+	map <string, int> ageOf;
+	ageOf["Ahmed"] = 30;
+	ageOf["abdelhady"] = 23;
+	ageOf["mohamed"] = 22;
+	ageOf["aly"] = 28;
+	cout << ageOf["mohamed"] << endl;;
+	cout << ageOf["abdelhady"] << endl;
+	cout << ageOf["mahmoud"] << endl;// not found so it creates an age for mahmoud with value 0
+	map<string, int>::iterator it;
+	for (it = ageOf.begin(); it != ageOf.end(); it++)
+	{
+		pair < string, int> p = *it;
+		cout << "age of " << p.first << " is " << p.second << endl;// traverse is sorted in ascending order
+	}
+	// maps are created using BSTS
+	//map is set of pairs
+	//accessing elements is O(log(n))
+}

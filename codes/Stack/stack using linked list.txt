@@ -1,0 +1,167 @@
+#include <iostream>
+using namespace std;
+class Node {
+public:
+	int data;
+	Node* next;
+};
+class Stack {
+	Node* top;
+public:
+	Stack() {
+		top = NULL;
+	}
+	bool is_empty() 
+	{
+		if (top == NULL)
+			return true;
+		else
+			return false;
+	}
+	void push(int item) {
+		Node* newnode = new Node();
+		newnode->data = item;
+		if (is_empty())
+		{
+			top = newnode;
+			newnode->next = NULL;
+		}
+		else
+		{
+			newnode->next = top;
+			top = newnode;
+		}
+	}
+	void Display()
+	{
+		if (is_empty())
+			cout << "stack is empty" << endl;
+		else
+		{
+			Node* temp = top;
+			while (temp != NULL)
+			{
+
+
+				cout << temp->data << " ";
+				temp = temp->next;
+
+			}
+		}
+	}
+	int count()
+	{
+		if (is_empty())
+			cout << "stack is empty" << endl;
+		else
+		{
+		int c = 0;
+		Node* temp = top;
+		while (temp != NULL)
+		{
+			
+				temp = temp->next;
+				c++;
+		}
+			return c;
+		}
+
+	}
+	void peek() {
+		cout << top->data << endl;
+	}
+	void pop() {
+		if (is_empty())
+			cout << "stack is empty" << endl;
+		else
+		{
+			Node* delptr = top;
+			top = top->next;
+			cout << delptr->data << " deleted" << endl;
+			delete delptr;
+		}
+	}
+	bool is_found(int key)
+	{
+		Node* temp = top;
+		while(temp != NULL)
+		{
+			if (temp->data == key)
+				return true;
+			else
+				return false;
+			temp = temp->next;
+		}
+	}
+	bool is_full()
+	{
+		Node* ptr = new Node();
+		if (ptr == NULL) {
+			return true;
+			cout << "stack is full ,cant add more items" << endl;
+		}
+		else
+			return false;
+	}
+
+};
+
+int main()
+{
+	cout << "hello welcome to Stack Data Strucure World " << endl;
+		Stack mystack;
+		while (1)
+		{
+			cout << "select one of the upcoming operation to do to your stack" << endl;
+			cout << "1-Dispaly the stack" << endl << "2-Display number of items in stack" << endl << "3-Display the top item of the stack" << endl;
+			cout << "4-Add items to the stack" << endl << "5-Remove the top item of the stack" << endl << "6-Search for item in the stack" << endl;
+			cout << "7-Check if stack empty or not" << endl << "8-To exit" << endl;
+			int choice2;
+			cin >> choice2;
+
+			if (choice2 == 1) {
+				mystack.Display();
+			}
+			if (choice2 == 2) {
+				if(mystack.is_empty()==false)	
+				cout << mystack.count() << endl;
+			}
+			if (choice2 == 3) {
+				mystack.peek();
+			}
+			if (choice2 == 4) {
+				cout << "Enter the number of items you wanna push into the stack " << endl;
+				int number_pushes;
+				cin >> number_pushes;
+				for (int i = 0; i < number_pushes; i++)
+				{
+					int item;
+					cout << "enter item number " << i+1 << endl;
+					cin >> item;
+					mystack.push(item);
+				}
+			}
+			if (choice2 == 5) {
+				mystack.pop();
+			}
+			if (choice2 == 6) {
+				int key;
+				cout << "enter item to search about";
+				cin >> key;
+				if (mystack.is_found(key))
+					cout << "item found" << endl;
+				else
+					cout << "item not found" << endl;
+
+			}
+			if (choice2 == 7)
+			{
+				if (mystack.is_empty())
+					cout << "stack is empty" << endl;
+				else
+					cout << "stack is not empty" << endl;
+			}
+			if (choice2 == 8)
+				break;
+		}
+	}

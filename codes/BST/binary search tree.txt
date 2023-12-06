@@ -1,0 +1,281 @@
+#include <iostream>
+using namespace std;
+class Node {
+public:
+
+	int data;
+	Node* left, * right;
+	Node( int value)
+	{
+		data = value;
+		left = right = NULL;
+	}
+
+};
+class BST
+{
+public:
+	Node* root;
+	Node* r = root;
+	BST() {
+		root = NULL;
+	}
+	Node* Insert(Node* pnode, int item) {
+		if (pnode == NULL)
+		{
+			Node* newNode = new Node(item);
+			pnode = newNode;
+		}
+		else if (item < pnode->data)
+		{
+			pnode->left = Insert(pnode->left, item);
+		}
+		else if (item >= pnode->data)
+		{
+			pnode->right = Insert(pnode->right, item);
+		}
+		return pnode;
+	}
+	void Insert(int item) {
+		if (root == NULL)
+			root = Insert(root, item);
+		else
+			r = Insert(root, item);
+
+	}
+	Node* Preorder(Node* pnode) //root->left->right
+	{
+		if (pnode == NULL)
+		{
+			return pnode;
+		}
+		else
+		{
+			cout << pnode->data << "\t";
+			Preorder(pnode->left);
+			Preorder(pnode->right);
+
+		}
+		return pnode;
+	}
+	void Preorder() {
+		root = Preorder(root);
+	}
+	Node* Inorder(Node* pnode) //left->root->right
+	{
+		if (pnode == NULL)
+		{
+			return pnode;
+		}
+		else
+		{
+			Preorder(pnode->left);
+			cout << pnode->data << "\t";
+			Preorder(pnode->right);
+
+		}
+		return pnode;
+
+	}
+	void Inorder()
+	{
+		r = Inorder(r);
+
+	}
+	Node* Postorder(Node* pnode) //left->right->root
+	{
+		if (pnode == NULL)
+		{
+			return pnode;
+		}
+		else
+		{
+			Preorder(pnode->left);
+			Preorder(pnode->right);
+			cout << pnode->data << "\t";
+
+		}
+	}
+	void Postorder() {
+		r = Postorder(r);
+	}
+	Node* Search(Node* pnode,int key) 
+	{
+		if (pnode == NULL)return NULL;
+		else if (key == pnode->data) 
+		{
+			return pnode;
+		}
+		else if(key<pnode->data)
+		{
+			return Search(pnode->left,key);
+		}
+		else 
+		{
+			return Search(pnode->right,key);
+		}
+	}
+	bool Search(int key) 
+		 {
+		Node* result = Search(root,key);
+		if (result == NULL)return false;
+		else return true;
+	}
+	Node* Findmin(Node* pnode)
+	{
+		if (pnode == NULL)return NULL;
+		else if (pnode->left == NULL) return pnode;
+		else
+		{
+			Findmin(pnode->left);
+		}
+	}
+	int Findmin()
+	{
+		r=root;
+		r=Findmin(r);
+		return r->data;
+	}
+	Node* Findmax(Node* pnode)
+	{
+		if (pnode == NULL)return NULL;
+		else if (pnode->right == NULL) return pnode;
+		else
+		{
+			Findmax(pnode->right);
+		}
+	}
+	int Findmax()
+	{
+		r = root;
+
+		r= Findmax(r);
+		return r->data;
+	}
+	Node* Delete(Node* pnode, int item)
+	{
+		if (pnode == NULL) return NULL;
+		else if (item < pnode->data) {
+			pnode->left = Delete(pnode->left,item);
+		}
+		else if (item > pnode->data) {
+			pnode->right = Delete(pnode->right, item);
+		}
+		else
+		{
+			if (pnode->left ==NULL&& pnode->right == NULL) pnode = NULL;//leaf node
+			else if (pnode->left != NULL && pnode->right == NULL) {
+				pnode->data = pnode->left->data;
+				delete pnode->left;
+				pnode->left = NULL;
+			}
+			else if (pnode->left == NULL && pnode->right != NULL) {
+				pnode->data = pnode->right->data;
+				delete pnode->right;
+				pnode->right = NULL;
+			}
+			else {
+				Node* max=Findmax(pnode->left);
+				pnode->data = max->data;
+				pnode->left=	Delete(pnode->left, max->data);
+			}
+		
+		}
+		return pnode;
+	}
+	void Delete(int item) {
+		r = root;
+		r = Delete(r, item);
+	}
+
+};
+
+int main()
+{
+	
+
+
+		BST tree = BST();
+		int n, newitem,s;
+		cout << "enter number of items you want to insert in the tree" << endl;
+		cin >> n;
+		for (int i = 0; i < n; i++)
+		{
+			cin >> newitem;
+			tree.Insert(newitem);
+		}
+		while (true) {
+			cout << "select of following: " << endl;
+				cout<<"1-preorder traverse  2-inorder traverse  3-postorder traverse  4-find minimum value  5-find maximum value  6-delete item"<<endl;
+		cin>>s;
+		if(s==1)
+		{
+		cout << "Displaying preorder traverse" << endl;
+		tree.Preorder();
+		cout << "\n";
+		}
+		if(s==2)
+		{
+		tree.Inorder();
+		cout << "\n";
+		}
+		if(s==3)
+		{
+		tree.Postorder();
+		cout << "\n";
+		cout << tree.root->data;
+		}
+		if(s==4)
+		{
+		cout<<tree.Findmin()<<endl;
+		}
+		if(s==5)
+		{
+		cout<<tree.Findmax()<<endl;
+		}
+		if(s==6)
+		{
+		int deleteitem;
+		cout<<"enter the item you want to delete"<<endl;
+		cin>>deleteitem;
+		tree.Delete(deleteitem);
+		cout<<"item deleted"<<endl;
+		}
+
+	}
+	
+
+}
+
+
+
+	/*BST tree = BST();
+		tree.Insert(45);
+		tree.Insert(15);
+		tree.Insert(79);
+		tree.Insert(90);
+		tree.Insert(10);
+		tree.Insert(55);
+		tree.Insert(12);
+		tree.Insert(20);
+		tree.Insert(50);
+		cout << "Display tree content" << endl;
+		tree.Preorder();
+		cout << "\n";
+		int searchItem;
+		cout << "enter item you want to search" << endl;
+		cin >> searchItem;
+		if(tree.Search(searchItem))
+		{
+			cout << "item found" << endl;
+		}
+		else {
+			cout << "item not found" << endl;
+		}
+		cout << tree.Findmin() << endl;
+		cout << tree.Findmax() << endl;
+
+		tree.Delete(12);
+		tree.Preorder();
+		cout << "\n";
+		*/

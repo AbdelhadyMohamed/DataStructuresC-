@@ -1,0 +1,204 @@
+#include <iostream>
+using namespace std;
+class Node {
+public:
+	int data;
+	Node* next;
+};
+class LinkedList {
+public:
+	Node* head;
+	LinkedList()
+	{
+		head = NULL;
+	}
+	bool is_empty()
+	{
+		if (head == NULL)
+			return true;
+		else
+			return false;
+
+	}
+	void insert_first(int newvalue) {
+		Node* newnode = new Node();
+		newnode->data = newvalue;
+		if (is_empty())
+		{
+			newnode->next = NULL;
+			head = newnode;
+		}
+		else
+		{
+			newnode->next = head;
+			head = newnode;
+		}
+
+	}
+	void Display()
+	{
+		Node* temp = head;
+		while (temp != NULL)
+		{
+			cout << temp->data << " ";
+			temp = temp->next;
+		}
+		cout << endl;
+		delete temp;
+	}
+	int Count() {
+		Node* temp = head;
+		int counter = 0;
+
+		while (temp != NULL)
+		{
+			counter++;
+			temp = temp->next;
+		}
+		return counter;
+		delete temp;
+	}
+	bool is_found(int key)
+	{
+		bool found = false;
+		Node* temp = head;
+		while (temp != NULL)
+		{
+			if (temp->data == key)
+			{
+				found = true;
+			}
+
+			temp = temp->next;
+		}
+		return found;
+	}
+	void insert_before(int item, int newvalue)
+	{
+		if (is_empty() == true)
+		{
+			insert_first(newvalue);
+		}
+		else
+		{
+			if (is_found(item))
+			{
+
+				Node* newnode = new Node();
+				newnode->data = newvalue;
+
+				Node* temp = head;
+
+
+				while (head != NULL)
+				{
+					if (temp->next->data == item)
+					{
+						newnode->next = temp->next;
+						temp->next = newnode;
+						break;
+					}
+					else
+						temp = temp->next;
+
+				}
+			}
+			else
+			{
+				cout << "item not found" << endl;
+			}
+		}
+
+	}
+	void Append(int newvalue) {
+		if (is_empty() == true)
+		{
+			insert_first(newvalue);
+		}
+		else
+		{
+			Node* temp = head;
+
+			while (temp->next != NULL)
+			{
+				temp = temp->next;
+			}
+			Node* newnode = new Node();
+			newnode->data = newvalue;
+
+			temp->next = newnode;
+			newnode->next = NULL;
+		}
+	}
+	void Delete(int item)
+	{
+		if (is_empty()) {
+			cout << "List is empty\n";
+		}
+		else {
+
+			Node* delp = head;
+			if (head->data == item)
+			{
+				Node* delp = head;
+				head = head->next;
+				delete delp;
+			}
+			else
+			{
+				Node* prev = NULL;
+				delp = head;
+				while (delp->data != item)
+				{
+
+					prev = delp;
+					delp = delp->next;
+				}
+
+				prev->next = delp->next;
+				delete delp;
+			}
+		}
+	}
+
+};
+int main() {
+	LinkedList newlinkedlist;
+	if (newlinkedlist.is_empty() == true)
+	{
+		cout << "list is empty" << endl;
+	}
+	else
+	{
+		cout << "list is not empty and number of items is " << newlinkedlist.Count() << endl;
+	}
+
+	newlinkedlist.insert_first(5);
+	newlinkedlist.insert_first(6);
+	newlinkedlist.insert_first(7);
+	newlinkedlist.insert_first(8);
+	newlinkedlist.insert_first(9);
+	newlinkedlist.Display();
+	if (newlinkedlist.is_found(10) == true)
+		cout << "item found" << endl;
+	else
+		cout << "item not found" << endl;
+	/*int item, newvalue;
+	cout << "enter  item and new value to insert " << endl;
+	cin >> item >> newvalue;
+	newlinkedlist.insert_before(item, newvalue);
+	cout << "enter elment to append" << endl;
+	int new_item;
+	cin >> new_item;
+	newlinkedlist.Append(new_item);
+	newlinkedlist.Display();*/
+	cout << "enter item to delete" << endl;
+	int item_to_delete;
+	cin >> item_to_delete;
+	newlinkedlist.Delete(item_to_delete);
+	newlinkedlist.Display();
+
+
+
+
+}

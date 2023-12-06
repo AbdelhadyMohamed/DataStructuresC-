@@ -1,0 +1,66 @@
+#include <iostream>
+using namespace std;
+class Array
+{
+private:
+	int size;
+	int length;
+	int* items;
+public:
+	Array(int arrsize)
+	{
+		size = arrsize;
+		length = 0;
+		items = new int[arrsize];
+	}
+	void Fill()
+	{
+		int number_of_items;
+		cout << "how many items you want to fill" << endl;
+		cin >> number_of_items;
+		if (number_of_items > size)
+		{
+			cout << "you cant exceed the array size" << endl;
+			return;
+		}
+		else
+		{
+			for (int i = 0; i < number_of_items; i++)
+			{
+				cout << "enter item number " <<i+1 <<endl;
+				cin >> items[i];
+				length++;
+			}
+
+		}
+	}
+	void Display()
+	{
+		cout << "displaying array values" << endl;
+		for (int i = 0; i < length; i++)
+		{
+			cout << "item number "<<i+1<<" is " << items[i]<<"  ";
+		}
+		cout << endl;
+
+	}
+	int get_size() {
+		return size;
+	}
+	int get_length()
+	{
+		return length;
+	}
+};
+int main()
+{
+	int arrsize;
+	cout << "eneter the array size" << endl;
+	cin >> arrsize;
+	Array myarray(arrsize );
+	myarray.Fill();
+	myarray.Display();
+	cout << "array size = " << myarray.get_size()<<"\t";
+	cout << "while array length = " << myarray.get_length();
+
+}
